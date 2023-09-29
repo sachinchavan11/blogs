@@ -1,0 +1,54 @@
+.margin_cont {
+  margin-top: 50px;
+}
+.main_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 20px;
+  width: 400px;
+  border: 1px solid rgb(216, 182, 182);
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px rgba(133, 127, 127, 0.1);
+}
+.card_container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.dot_container {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.title_cont {
+  font-size: 18px;
+  font-weight: 600;
+}
+.location_cont {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgb(182, 182, 214);
+}
+.hover_container {
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+  padding: 20px;
+  width: 80px;
+}
+.btn_container {
+  font-size: 10px;
+  color: black;
+}
+.hover_cont {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}

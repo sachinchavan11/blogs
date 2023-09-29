@@ -1,0 +1,56 @@
+.main_container {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background-color: rgb(192, 211, 205);
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+.title_container {
+  font-size: 28px;
+  display: flex;
+  margin-left: 400px;
+}
+.text_add_cont {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+}
+.input_container {
+  margin-top: -40px;
+}
+.button_container {
+  width: 100px;
+  height: 30px;
+  padding-right: 20px;
+  margin-right: 100px;
+  background-color: rgb(137, 137, 194);
+  color: aliceblue;
+}
+
+.input_cont {
+  margin-bottom: 20px;
+}
+.label {
+  font-size: 20px;
+  margin-right: 40px;
+}
+.theme_main_container {
+  position: relative;
+  margin-top:-200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input_cont_drop
+{
+  margin-bottom: 100px;
+}
