@@ -1,5 +1,5 @@
 import styles from "./index.module.css";
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,16 +10,32 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRouter } from "next/router";
-import { fetchuserPost } from "../../redux/postReducer";
+import {
+  fetchuserPost,
+  addModalState,
+  setActiveUser,
+  fetchDetails,
+} from "../../redux/postReducer";
 
-export function BasicSelect({ names, setActiveID }) {
+export function BasicSelect({ names, reset, handleReset }) {
+  console.log("reset", reset);
   const [age, setAge] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (reset) {
+      setAge("");
+    }
+  }, [reset]);
 
   const handleChange = (event) => {
+    if (reset) {
+      handleReset(false);
+    }
     const selectedId = event.target.value;
     setAge(event.target.value);
+
     const activeId = names.find((item) => item.name == selectedId);
-    setActiveID(activeId.id);
+    dispatch(setActiveUser(activeId.id));
   };
 
   return (
@@ -47,33 +63,47 @@ export function BasicSelect({ names, setActiveID }) {
 }
 
 const Header = (props) => {
-  const [modalState, setModalState] = useState(false);
+  const [reset, setRestate] = useState(false);
+  const resetMode = useSelector((state) => state.postReducer.resetMode);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleAddClick = (event) => {
     event.preventDefault();
-    setModalState(true);
+    dispatch(addModalState());
   };
-  const handlesetState = (value) => {
-    setModalState(value);
+
+  const handlereset = () => {
+    setRestate(true);
+    dispatch(fetchDetails());
+  };
+  const handleReset = () => {
+    setRestate(false);
   };
   return (
     <>
-      {modalState ? (
-        <MyModal isOpen={modalState} setState={handlesetState} />
-      ) : null}
       <div className={styles.main_container}>
         <div className={styles.title_container}>BLOGS AND POSTS</div>
         <div className={styles.text_add_cont}>
           <div className={styles.input_container}>
-            <BasicSelect names={props.users} setActiveID={props.activeId} />
+            <BasicSelect
+              names={props.users}
+              reset={reset}
+              handleReset={handleReset}
+            />
           </div>
+          <button
+            className={styles.button_container_reset}
+            onClick={handlereset}
+          >
+            Reset
+          </button>
           <a
             href="/thememodal"
             className={styles.button_container}
             onClick={handleAddClick}
           >
-            +ADD
+            ADD POST
           </a>
         </div>
       </div>
@@ -83,7 +113,7 @@ const Header = (props) => {
 
 export default Header;
 
-const MyModal = ({ isOpen, setState }) => {
+export const AddModal = ({ isOpen }) => {
   const [id, setID] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -93,7 +123,7 @@ const MyModal = ({ isOpen, setState }) => {
   const userData = useSelector((state) => state.postReducer);
 
   const closeModal = () => {
-    setState(false);
+    dispatch(addModalState(false));
   };
   const handleChange = (e) => {
     setIdval(e.target.value);
@@ -102,18 +132,13 @@ const MyModal = ({ isOpen, setState }) => {
   const handleSubmit = () => {
     const value = { userId: idval, id: id, title: title, body: body };
     dispatch(addPost(value));
-    setState(false);
   };
 
   return (
     <>
-      <Transition show={true} as={Fragment}>
-        <Dialog
-          as="div"
-          className={styles.theme_main_container}
-          onClose={closeModal}
-        >
-          <div className="flex  items-center justify-center min-h-screen p-4 text-center">
+      <Transition appear show={isOpen || false} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <div className="fixed inset-0 bg-black bg-opacity-25 flex items-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -123,7 +148,7 @@ const MyModal = ({ isOpen, setState }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full h-full max-w-md mx-auto overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full h-[80%] max-w-md mx-auto overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
@@ -131,12 +156,15 @@ const MyModal = ({ isOpen, setState }) => {
                   ENTER THE DETAILS TO ADD THE POST
                 </Dialog.Title>
 
-                <div className="mt-4  flex">
+                <div className="mt-4  flex flex-col">
                   <div className={styles.input_cont_drop}>
                     <label>userId</label>
                     <Box sx={{ minWidth: 100, maxHeight: 10 }}>
                       <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
+                        <InputLabel
+                          id="demo-simple-select-label"
+                          className="rounded-[8px]"
+                        >
                           userid
                         </InputLabel>
                         <Select
@@ -161,7 +189,7 @@ const MyModal = ({ isOpen, setState }) => {
                     <label className={styles.label}>id </label>
                     <input
                       type="text"
-                      className="border border-gray-300 p-2 w-full"
+                      className="border border-gray-300 p-2 w-full rounded-[8px]"
                       placeholder="Input 2"
                       value={userData.users.length + 1}
                     />
@@ -170,7 +198,7 @@ const MyModal = ({ isOpen, setState }) => {
                     <label className={styles.label}>title </label>
                     <input
                       type="text"
-                      className="border border-gray-300 p-2 w-full"
+                      className="border border-gray-300 p-2 w-full rounded-[8px]"
                       placeholder="Input 3"
                       value={title}
                       required={true}
@@ -181,7 +209,7 @@ const MyModal = ({ isOpen, setState }) => {
                     <label className={styles.label}>body</label>
                     <input
                       type="text"
-                      className="border border-gray-300 p-2 w-full"
+                      className="border border-gray-300 p-2 w-full rounded-[8px]"
                       placeholder="Input 4"
                       value={body}
                       required={true}

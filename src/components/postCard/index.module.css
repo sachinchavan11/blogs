@@ -1,5 +1,9 @@
 .margin_cont {
   margin-top: 50px;
+  display: grid;
+  margin-left: 20px;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
 }
 .main_container {
   position: relative;
@@ -7,7 +11,7 @@
   flex-direction: column;
   margin-bottom: 20px;
   padding: 20px;
-  width: 400px;
+  width: 450px;
   border: 1px solid rgb(216, 182, 182);
   border-radius: 20px;
   box-shadow: 0px 4px 8px rgba(133, 127, 127, 0.1);
@@ -39,13 +43,20 @@
 .hover_container {
   display: flex;
   flex-direction: column;
-  height: 20px;
+  height: 30px;
   padding: 20px;
-  width: 80px;
+  width: 120px;
 }
 .btn_container {
-  font-size: 10px;
-  color: black;
+  font-size: 12px;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: white;
+  margin-bottom: 2px;
+  background-color: rgb(141, 141, 180);
+}
+.btn_container:hover {
+  background-color: rgb(88, 85, 91);
 }
 .hover_cont {
   position: absolute;

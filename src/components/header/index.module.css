@@ -27,12 +27,18 @@
   margin-top: -40px;
 }
 .button_container {
-  width: 100px;
-  height: 30px;
-  padding-right: 20px;
+  width: 140px;
+  height: 35px;
+  text-align: center;
+  border-radius: 5px;
   margin-right: 100px;
-  background-color: rgb(137, 137, 194);
-  color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(149, 159, 117);
+  color: rgb(12, 14, 16);
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .input_cont {
@@ -44,13 +50,25 @@
 }
 .theme_main_container {
   position: relative;
-  margin-top:-200px;
+  margin-top: -200px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.input_cont_drop
-{
+.input_cont_drop {
   margin-bottom: 100px;
+}
+.button_container_reset {
+  width: 140px;
+  height: 35px;
+  text-align: center;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(114, 144, 169);
+  color: rgb(12, 14, 16);
+  font-size: 16px;
+  font-weight: 700;
 }
